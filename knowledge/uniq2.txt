@@ -1,0 +1,73 @@
+UNIQ TECHNOLOGIES — COURSES AND TRAINING
+
+[COURSE_CATEGORIES]
+
+Software and Programming
+Web Development
+Mobile App Development
+Data and Artificial Intelligence
+Cloud and DevOps
+Cyber Security
+Software Testing
+Digital Marketing and Business Intelligence
+
+[SOFTWARE_AND_PROGRAMMING_COURSES]
+
+Java
+Python
+C++
+SQL
+Unix
+.NET
+Embedded Systems
+
+[WEB_DEVELOPMENT_COURSES]
+
+HTML
+CSS
+Bootstrap
+PHP
+Web Application Development
+
+[MOBILE_DEVELOPMENT]
+
+Android Development
+
+[MODERN_TECHNOLOGY_COURSES]
+
+Data Science
+Machine Learning
+Data Engineering
+DevOps
+AWS
+Cyber Security
+Cloud Fundamentals
+Generative AI
+MLOps
+Software Testing
+Digital Marketing
+Power BI
+Internet of Things (IoT)
+Robotics
+MATLAB Image Processing
+NS2
+Machine Vision
+
+[TRAINING_FORMAT]
+
+Training modes:
+Online training
+Offline classroom training
+
+Batch schedules:
+Weekday batches
+Weekend batches
+
+Training features:
+Real-time project work
+Practical job-oriented training
+Certification after course completion (as claimed)
+
+[DURATION]
+
+Typical training duration: 3 to 6 months depending on the course and batch schedule.

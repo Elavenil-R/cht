@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UNIQ Technologies Assistant</title>
+
+  <style>
+    :root{
+      --bg0:#070912;
+      --bg1:#0a1023;
+      --glass: rgba(255,255,255,.06);
+      --glass2: rgba(255,255,255,.10);
+      --stroke: rgba(255,255,255,.12);
+      --text:#eaf0ff;
+      --muted: rgba(234,240,255,.65);
+
+      --user:#2f6bff;
+      --bot: rgba(255,255,255,.07);
+
+      --r-xl: 26px;
+      --r-lg: 18px;
+      --r-md: 14px;
+      --shadow: 0 25px 90px rgba(0,0,0,.55);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: radial-gradient(1200px 500px at 20% 10%, rgba(47,107,255,.18), transparent 60%),
+                  radial-gradient(900px 600px at 80% 40%, rgba(139,92,255,.14), transparent 60%),
+                  linear-gradient(180deg, var(--bg0), #050712 70%);
+      color: var(--text);
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+
+    .app{
+      width:min(1200px, 96vw);
+      height:min(720px, 92vh);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .topbar{
+      padding: 18px 22px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,0));
+    }
+
+    .titleblock{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .title{
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing:.2px;
+    }
+    .subtitle{
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .righttools{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .badge{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      background:#ff4d4d;
+      box-shadow:0 0 16px rgba(255,77,77,.35);
+    }
+    .dot.ok{
+      background:#22c55e;
+      box-shadow:0 0 16px rgba(34,197,94,.35);
+    }
+
+    .btn{
+      cursor:pointer;
+      user-select:none;
+      border:none;
+      outline:none;
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .btn:hover{ background: rgba(255,255,255,.08); }
+    .btn:active{ transform: translateY(1px); }
+
+    .quickbar{
+      padding: 14px 18px;
+      display:flex;
+      gap:12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.08);
+    }
+    .pill{
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.11);
+      color: var(--text);
+      font-weight: 650;
+      cursor:pointer;
+    }
+    .pill:hover{ background: rgba(255,255,255,.09); }
+
+    /* IMPORTANT: this is the scroll container */
+    .chatWrap{
+      flex:1;
+      overflow-y:auto;
+      padding: 18px;
+      scroll-behavior:smooth;
+    }
+
+    /* nicer scrollbar */
+    .chatWrap::-webkit-scrollbar{ width: 10px; }
+    .chatWrap::-webkit-scrollbar-track{ background: transparent; }
+    .chatWrap::-webkit-scrollbar-thumb{
+      background: rgba(255,255,255,.10);
+      border-radius: 999px;
+    }
+
+    .row{
+      display:flex;
+      margin: 12px 0;
+      gap:10px;
+      align-items:flex-end;
+    }
+    .row.user{ justify-content:flex-end; }
+    .row.bot{ justify-content:flex-start; }
+
+    .bubble{
+      max-width:min(78%, 760px);
+      padding: 14px 16px;
+      border-radius: 18px;
+      line-height: 1.35;
+      font-size: 16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: var(--bot);
+      backdrop-filter: blur(10px);
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .row.user .bubble{
+      background: linear-gradient(180deg, rgba(47,107,255,.95), rgba(47,107,255,.72));
+      border-color: rgba(47,107,255,.35);
+    }
+
+    .meta{
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 4px;
+      min-width: 110px;
+    }
+    .row.user .meta{ text-align:right; }
+
+    .composer{
+      padding: 14px 14px;
+      display:flex;
+      gap:12px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.10);
+    }
+    .input{
+      flex:1;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      font-size: 16px;
+      outline:none;
+    }
+    .send{
+      padding: 14px 22px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(47,107,255,.95), rgba(47,107,255,.72));
+      border: 1px solid rgba(47,107,255,.35);
+      font-weight: 800;
+      cursor:pointer;
+      color:white;
+      min-width: 120px;
+    }
+    .send:disabled{
+      opacity: .6;
+      cursor:not-allowed;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <div class="topbar">
+      <div class="titleblock">
+        <div class="title">UNIQ Technologies Assistant</div>
+        <div class="subtitle">Local RAG • FastAPI • LM Studio</div>
+      </div>
+
+      <div class="righttools">
+        <div class="badge" id="apiBadge">
+          <span class="dot" id="apiDot"></span>
+          <span id="apiText">API Offline</span>
+        </div>
+        <button class="btn" id="clearBtn">Clear</button>
+      </div>
+    </div>
+
+    <div class="quickbar">
+      <button class="pill" id="btnContact">Contact</button>
+      <button class="pill" id="btnAbout">About UNIQ</button>
+      <button class="pill" id="btnBranches">Branches</button>
+      <button class="pill" id="btnCourses">Courses</button>
+    </div>
+
+    <!-- Scroll container -->
+    <div class="chatWrap" id="chatWrap"></div>
+
+    <div class="composer">
+      <input class="input" id="msgInput" placeholder="Type your message..." autocomplete="off"/>
+      <button class="send" id="sendBtn">Send</button>
+    </div>
+  </div>
+
+  <script>
+    // ===== DOM =====
+    const chatWrap = document.getElementById("chatWrap");
+    const msgInput = document.getElementById("msgInput");
+    const sendBtn  = document.getElementById("sendBtn");
+
+    const apiDot  = document.getElementById("apiDot");
+    const apiText = document.getElementById("apiText");
+
+    // ===== Helpers =====
+    function nowTime() {
+      const d = new Date();
+      return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function scrollToBottom() {
+      chatWrap.scrollTop = chatWrap.scrollHeight;
+    }
+
+    function addRow(who, text) {
+      const row = document.createElement("div");
+      row.className = "row " + who;
+
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      meta.textContent = (who === "user" ? "You" : "UNIQ Bot") + " • " + nowTime();
+
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+      bubble.textContent = text || "";
+
+      // layout: bot: [bubble][meta], user: [meta][bubble]
+      if (who === "user") {
+        row.appendChild(meta);
+        row.appendChild(bubble);
+      } else {
+        row.appendChild(bubble);
+        row.appendChild(meta);
+      }
+
+      chatWrap.appendChild(row);
+      scrollToBottom();
+
+      return bubble; // IMPORTANT: return bubble so we can update it
+    }
+
+    function setApiStatus(isOnline) {
+      if (isOnline) {
+        apiDot.classList.add("ok");
+        apiText.textContent = "API Online";
+      } else {
+        apiDot.classList.remove("ok");
+        apiText.textContent = "API Offline";
+      }
+    }
+
+    async function callChatAPI(question) {
+      // IMPORTANT: backend endpoint must be /api/chat and return {answer: "..."}
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question })
+      });
+
+      if (!res.ok) {
+        // try to read error body for debugging
+        let errText = "";
+        try { errText = await res.text(); } catch(e) {}
+        throw new Error("HTTP " + res.status + (errText ? (": " + errText) : ""));
+      }
+
+      const data = await res.json();
+
+      // must be data.answer
+      const answer = (data && typeof data.answer === "string") ? data.answer.trim() : "";
+      return answer;
+    }
+
+    async function sendMessage(q) {
+      const question = (q ?? msgInput.value ?? "").trim();
+      if (!question) return;
+
+      addRow("user", question);
+      msgInput.value = "";
+
+      // typing bubble (will be replaced)
+      const typingBubble = addRow("bot", "Typing...");
+
+      sendBtn.disabled = true;
+
+      try {
+        const answer = await callChatAPI(question);
+        setApiStatus(true);
+
+        // NEVER allow blank bubble
+        typingBubble.textContent = answer || "Information not available.";
+      } catch (err) {
+        setApiStatus(false);
+
+        // show readable error, but still not blank
+        typingBubble.textContent = "API Offline / Server error. Please try again.";
+        console.error(err);
+      } finally {
+        sendBtn.disabled = false;
+      }
+    }
+
+    // ===== Events =====
+    sendBtn.addEventListener("click", () => sendMessage());
+    msgInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    document.getElementById("clearBtn").addEventListener("click", () => {
+      chatWrap.innerHTML = "";
+      setApiStatus(false);
+    });
+
+    // Buttons send FULL questions (so vector search works)
+    document.getElementById("btnContact").addEventListener("click", () =>
+      sendMessage("Tell me the contact details of UNIQ Technologies.")
+    );
+    document.getElementById("btnAbout").addEventListener("click", () =>
+      sendMessage("Tell me about UNIQ Technologies.")
+    );
+    document.getElementById("btnBranches").addEventListener("click", () =>
+      sendMessage("List all branches of UNIQ Technologies.")
+    );
+    document.getElementById("btnCourses").addEventListener("click", () =>
+      sendMessage("List the courses offered by UNIQ Technologies.")
+    );
+
+    // Quick startup check: try a tiny call that won't add chat bubbles
+    (async function bootCheck(){
+      try {
+        await callChatAPI("ping");
+        setApiStatus(true);
+      } catch(e) {
+        setApiStatus(false);
+      }
+    })();
+  </script>
+</body>
+</html>

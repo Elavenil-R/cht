@@ -1,0 +1,49 @@
+UNIQ TECHNOLOGIES — CORE INFORMATION
+
+[ENTITY]
+
+name: UNIQ Technologies
+type: IT services company and training institute
+founded_year: 2007
+headquarters_city: Chennai
+headquarters_state: Tamil Nadu
+headquarters_country: India
+
+[FOUNDER]
+
+Mohamed Hussain is the founder and CEO of UNIQ Technologies.
+
+[CONTACT]
+
+phone: +91 9600114466
+phone: +91 9500088927
+email: info@uniqtechnologies.com
+
+[BRANCHES]
+
+branch: Chennai (Main Branch)
+branch: Coimbatore
+branch: Tirunelveli
+branch: Madurai
+branch: Trichy
+branch: Bangalore
+
+note: Additional training locations may exist depending on demand.
+
+[CERTIFICATION]
+
+ISO certification: ISO 9001:2015
+ISO certification: ISO 9001:2018
+registration: NASSCOM Registered
+
+[ABOUT]
+
+UNIQ Technologies is an IT-oriented company and training institute.
+The organization operates as a software services provider and delivers industry-focused technical training programs.
+
+[WHY_UNIQ]
+
+UNIQ Technologies states that it delivers real business transformation rather than maintenance.
+Its services include IT services, industry solutions, and outsourcing focused on operational certainty and measurable outcomes.
+
+The organization promotes itself as a platform for students and freshers to gain industry-ready skills.
